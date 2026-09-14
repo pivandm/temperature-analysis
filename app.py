@@ -1,16 +1,11 @@
 # дз 1, анализ температур и текущая погода с openweathermap
 # запуск: streamlit run app.py
-import os
-
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from dotenv import load_dotenv
 
 import utils
-
-load_dotenv()  # ключ можно положить в .env, чтобы не вбивать руками каждый раз
 
 st.set_page_config(page_title="Анализ температур", layout="wide")
 
@@ -38,9 +33,8 @@ anom_col = "anomaly_season" if anom_mode.startswith("По сезонной") els
 
 st.sidebar.divider()
 api_key = st.sidebar.text_input("API-ключ OpenWeatherMap", type="password",
-                                value=os.getenv("OWM_API_KEY", ""),
                                 help="Без ключа текущая погода не показывается")
-how = st.sidebar.radio("Как дёргаем API", ["синхронно (requests)", "асинхронно (aiohttp)"])
+how = st.sidebar.radio("Как обращаться к API", ["синхронно (requests)", "асинхронно (aiohttp)"])
 
 d = data[data["city"] == city].reset_index(drop=True)
 prof = utils.season_profile(d)
